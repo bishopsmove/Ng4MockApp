@@ -1,0 +1,7 @@
+[
+  {"id":1, "locationName":"Penn", "streetAddressLine1":"361 Harley Haggerty","streetAddressLine2":"","postalCode":"17418","cityName":"Pottsburgh","stateProvinceCode":"PA", "phone":{ "number": "+1(535)-6553692"}, "Manager":null},
+  {"id":2, "locationName":"Lost Wages", "streetAddressLine1":"533 Quiet Half","streetAddressLine2":"Suite 300","postalCode":"60847","cityName":"Las Vegas","stateProvinceCode":"NV","phone":{ "number": "+1(838)-2558843"}, "Manager":null},
+  {"id":3, "locationName":"Tejas", "streetAddressLine1":"852 Snider Hollow","streetAddressLine2":"","postalCode":"31814","cityName":"Ft. Worth","stateProvinceCode":"TX","phone":{ "number": "+1(252)-7228044"}, "Manager":null},
+  {"id":4, "locationName": "Badlands", "streetAddressLine1":"88 Carson Court","streetAddressLine2":"Ste 222","postalCode":"66098","cityName":"Bismark","stateProvinceCode":"ND","phone":{ "number": "+1(959)-9002064"}, "Manager":null}
+
+]

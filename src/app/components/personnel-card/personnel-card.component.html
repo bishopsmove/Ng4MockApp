@@ -1,0 +1,65 @@
+<div class="mdl-card mdl-shadow--2dp" #dataContainer>
+
+  <div id="withForm" *ngIf="editMode">
+    <form [formGroup]="personnelForm">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+        <input class="mdl-textfield__input" attr.id="personnel-first-name-{{cardId}}" formControlName="firstName" type="text" />
+        <label attr.for="personnel-first-name-{{cardId}}">First Name</label>
+        <ol *ngIf="personnelForm.get('firstName').invalid && personnelForm.get('firstName').dirty" class="alert alert-danger">
+          <li *ngIf="personnelForm.get('firstName')['errors'].required" class="mdl-textfield__error">This field is required</li>
+          <li *ngIf="personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error"> Enter Valid First Name</li>
+          <li *ngIf="personnelForm.get('firstName')['errors'].minlength && !personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error"> Please enter at least 2 characters to proceed</li>
+          <li *ngIf="personnelForm.get('firstName')['errors'].maxlength && !personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error"> Enter less than 25 characters to proceed</li>
+        </ol>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+        <input class="mdl-textfield__input" attr.id="personnel-last-name-{{cardId}}" type="text" formControlName="lastName" />
+        <label attr.for="personnel-last-name-{{cardId}}">Last Name</label>
+        <ol *ngIf="personnelForm.get('lastName').invalid && personnelForm.get('lastName').errors" class="alert alert-danger">
+          <li *ngIf="personnelForm.get('lastName')['errors'].required" class="mdl-textfield__error">This field is required</li>
+          <li *ngIf="personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error"> Enter Valid First Name</li>
+          <li *ngIf="personnelForm.get('lastName')['errors'].minlength && !personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error"> Please enter at least 2 characters to proceed</li>
+          <li *ngIf="personnelForm.get('lastName')['errors'].maxlength && !personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error"> Enter less than 25 characters to proceed</li>
+        </ol>
+      </div>
+        <div class="mdl-layout-spacer"></div>
+
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <div class="mdl-layout-spacer"></div>
+        <input class="mdl-textfield__input" attr.id="personnel-birth-date-{{cardId}}"  type="date" formControlName="birthDate" />
+        <label attr.for="personnel-birth-date-{{cardId}}">Birth Date</label>
+      </div>
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+
+        <input class="mdl-textfield__input" attr.id="personnel-hire-date-{{cardId}}"  type="date" formControlName="hireDate" />
+        <label attr.for="personnel-hire-date-{{cardId}}">Hire Date</label>
+      </div>
+        <div class="mdl-layout-spacer"></div>
+    </form>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="updatePersonnel()"><i class="material-icons">save</i></button>
+    <div class="mdl-layout-spacer"></div>
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"  (click)="editMode = !editMode"><i class="material-icons">cancel</i></button>
+  </div>
+  <div id="withoutForm" *ngIf="!editMode">
+<ol>
+  <li>First Name:<span>{{personnel.firstName}}</span></li>
+  <li>Last Name:<span>{{personnel.lastName}}</span></li>
+  <li>Birth Date:<span>{{personnel.birthDate | date:'shortDate'}}</span></li>
+  <li>Hire Date:<span>{{personnel.hireDate | date:'shortDate'}}</span></li>
+</ol>
+
+  </div>
+  <div class="demo-avatar-dropdown" *ngIf="!editMode" >
+  <div class="mdl-layout-spacer"></div>
+  <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" attr.id="{{cardId}}">
+    <i class="material-icons">more_vert</i>
+  </button>
+        <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" attr.for="{{cardId}}">
+          <li class="mdl-menu__item"><button class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="editMode = !editMode" >Edit</button></li>
+        </ul>
+        </div>
+</div>
