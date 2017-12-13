@@ -2,8 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.4.
 
-Generated with ng-cli and built via Yarn.
-Styling is implemented via Material Design Lite
+Built via Yarn.
+Styling is implemented via **Material Design Lite**.
 Other node_modules can be imported, as needed.
 
 ## Description
