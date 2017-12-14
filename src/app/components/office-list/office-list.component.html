@@ -1,4 +1,4 @@
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" [formGroup]="officeFormContainer">
     <thead>
       <tr>
         <th class="mdl-data-table__cell--non-numeric">Location</th>
@@ -10,34 +10,45 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let office of officeList| async; let i = index">
-        <td class="mdl-data-table__cell--non-numeric">
-            <span *ngIf="!editMode">{{office.locationName}}</span>
-            <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.locationName}}" /></span>
+    <tbody >
+      <tr *ngFor="let office of officeFormContainer.get('offices')['controls']; let i = index"  >
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+            <span *ngIf="!editMode">{{office.get('locationName').value}}</span>
+            <span *ngIf="editMode && office.get('id').value === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" formControlName="locationName" /></span>
           </td>
-        <td class="mdl-data-table__cell--non-numeric">
-          <span *ngIf="!editMode">{{office.streetAddressLine1}}</span>
-          <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.streetAddressLine1}}" /></span>
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+          <span *ngIf="!editMode">{{office.get('streetAddressLine1').value}}</span>
+          <span *ngIf="editMode && office.get('id').value === currentEditId"><input class="mdl-textfield__input" attr.id="location-line1-{{i}}" type="text" formControlName="streetAddressLine1" /></span>
         </td>
-        <td class="mdl-data-table__cell--non-numeric">
-          <span *ngIf="!editMode">{{office.streetAddressLine2}}</span>
-          <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.streetAddressLine2}}" /></span>
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+          <span *ngIf="!editMode">{{office.get('streetAddressLine2').value}}</span>
+          <span *ngIf="editMode && office.get('id').value === currentEditId"><input class="mdl-textfield__input" attr.id="location-line2-{{i}}" type="text" formControlName="streetAddressLine2" /></span>
         </td>
-        <td class="mdl-data-table__cell--non-numeric">
-          <span *ngIf="!editMode">{{office.cityName}}</span>
-          <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.cityName}}" /></span>
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+          <span *ngIf="!editMode">{{office.get('cityName').value}}</span>
+          <span *ngIf="editMode && office.get('id').value === currentEditId"><input class="mdl-textfield__input" attr.id="location-city-name-{{i}}" type="text" formControlName="cityName" /></span>
         </td>
-        <td class="mdl-data-table__cell--non-numeric">
-          <span *ngIf="!editMode">{{office.stateProvinceCode}}</span>
-          <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.stateProvinceCode}}" /></span>
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+          <span *ngIf="!editMode">{{office.get('stateProvinceCode').value}}</span>
+          <span *ngIf="editMode && office.get('id').value === currentEditId">
+            <select formControlName="stateProvinceCode" attr.id="location-state-{{i}}">
+              <option *ngFor="let state of stateProvinceList" [value]="state">{{state}}</option>
+            </select>
+            <!-- <input class="mdl-textfield__input" attr.id="location-state-{{i}}" type="text" formControlName="stateProvinceCode" /> -->
+          </span>
         </td>
-        <td class="mdl-data-table__cell--non-numeric">
-          <span *ngIf="!editMode">{{office.postalCode}}</span>
-          <span *ngIf="editMode && office.id === currentEditId"><input class="mdl-textfield__input" attr.id="location-name-{{i}}" type="text" value="{{office.postalCode}}" /></span>
+        <td class="mdl-data-table__cell--non-numeric" [formGroup]="office">
+          <span *ngIf="!editMode">{{office.get('postalCode').value}}</span>
+          <span *ngIf="editMode && office.get('id').value === currentEditId"><input class="mdl-textfield__input" attr.id="location-postalCode-{{i}}" type="text" formControlName="postalCode" /></span>
         </td>
-        <td><button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" *ngIf="!editMode" (click)="switchMode(office.id)"><i class="material-icons">edit</i></button>
-          <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" *ngIf="editMode && office.id === currentEditId" (click)="switchMode(office.id)"><i class="material-icons">cancel</i></button></td>
+        <td>
+          <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" [hidden]="editMode" (click)="switchMode(office.get('id').value)"><i class="material-icons">edit</i></button>
+          <div *ngIf="editMode && office.get('id').value === currentEditId">
+              <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="updateOffice(i)"><i class="material-icons">save</i></button>
+              <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="switchMode(office.get('id').value)"><i class="material-icons">cancel</i></button>
+          </div>
+
+        </td>
       </tr>
 
     </tbody>

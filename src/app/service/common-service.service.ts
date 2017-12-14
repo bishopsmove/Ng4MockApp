@@ -35,7 +35,7 @@ export class CommonService {
 
   getStateProvinces(): Observable<any[]> {
     if (!this.stateProvinceStore) {
-      this.stateProvinceStore = this._http.get('../../assets/data/stateProvinces.json')
+      this.stateProvinceStore = this._http.get('../../assets/data/statesProvinces.json')
         .map((res: Response) => res.json());
     }
 
