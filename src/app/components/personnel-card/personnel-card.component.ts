@@ -49,7 +49,6 @@ export class PersonnelCardComponent implements OnInit {
   hydrateForm(data: Person) {
 
     if (data) {
-      console.log(this.personnel);
       this.personnelForm.patchValue(data);
     }
   }
