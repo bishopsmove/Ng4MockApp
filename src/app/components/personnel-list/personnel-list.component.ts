@@ -11,11 +11,18 @@ import { Person } from '../../models/person';
 })
 export class PersonnelListComponent implements OnInit {
   personnelList: Observable<Person[]>;
-
+  listData = [];
   constructor(private _commonService: CommonService) { }
 
   ngOnInit() {
     this.personnelList = this._commonService.getPersonnel();
+    this.personnelList.subscribe(data=>{
+    	this.listData = data;
+    })
+  }
+
+  addNew(){
+  	
   }
 
 }

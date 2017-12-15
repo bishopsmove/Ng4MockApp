@@ -6,5 +6,6 @@ export class Office {
   cityName: String;
   stateProvinceCode: String;
   postalCode: String;
+  phoneNumber : any;
 
 }
