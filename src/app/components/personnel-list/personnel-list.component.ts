@@ -11,11 +11,16 @@ import { Person } from '../../models/person';
 })
 export class PersonnelListComponent implements OnInit {
   personnelList: Observable<Person[]>;
+  addMode = false;
 
   constructor(private _commonService: CommonService) { }
 
   ngOnInit() {
     this.personnelList = this._commonService.getPersonnel();
+  }
+
+  addNew() {
+  	this.addMode = true;
   }
 
 }

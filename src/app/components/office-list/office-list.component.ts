@@ -17,6 +17,8 @@ export class OfficeListComponent implements OnInit {
   stateProvinceList: any[];
   editMode = false;
   currentEditId;
+  addMode = false;
+  editButtonFlag = false;
 
   officeFormContainer = this.buildFormsArray();
   constructor(private _commonService: CommonService, private _fb: FormBuilder) { }
@@ -30,8 +32,28 @@ export class OfficeListComponent implements OnInit {
     this._commonService.getStateProvinces().subscribe((data) => {
       this.stateProvinceList = data;
     });
+    console.log("officeFormContainer", this.officeFormContainer)
 
+  }
 
+  addNewOffice() {
+    this.addMode = true;
+    this.editMode = true;
+    this.editButtonFlag = true;
+    //this.buildFormsArray();
+    const newData = [{
+       'id': '', 
+      'locationName' : '',
+       'streetAddressLine1': '',
+       'streetAddressLine2': '',
+       'cityName': '',
+       'stateProvinceCode': '',
+       'postalCode': '',
+       'phone': ''
+    }];
+    const formArray = <FormArray>this.officeFormContainer.controls['offices'];
+      newData.forEach(item => formArray.controls.push(this._fb.group(item)));
+   
   }
 
   buildFormsArray() {
@@ -41,7 +63,7 @@ export class OfficeListComponent implements OnInit {
   }
 
   hydrateArray(newData) {
-
+    console.log("nrmv", newData);
     if (newData) {
       // If input array newData is initialized, init a formGroup and pass each array item into formContainer
       const formArray = <FormArray>this.officeFormContainer.controls['offices'];
@@ -52,13 +74,14 @@ export class OfficeListComponent implements OnInit {
 
   updateOffice(index) {
     // Use the formGroup index to access the current formGroup value from the formContainer array and pass to updateOffice method
-    const newData = (<FormArray>this.officeFormContainer.controls['offices']).controls[index].value;
+    let newData = (<FormArray>this.officeFormContainer.controls['offices']).controls[index].value;
     this._commonService.updateOffice(newData);
     this.switchMode();
 
   }
 
   switchMode(id?) {
+      this.addMode = false;
     if (!this.editMode) {
       this.editMode = true;
       this.currentEditId = id;
@@ -66,6 +89,7 @@ export class OfficeListComponent implements OnInit {
       this.editMode = false;
       this.currentEditId = null;
     }
+    this.editButtonFlag = false;
 
   }
 

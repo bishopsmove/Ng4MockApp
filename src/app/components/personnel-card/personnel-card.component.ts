@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import 'rxjs/Rx';
@@ -12,8 +12,9 @@ import { Office } from '../../models/office';
   templateUrl: './personnel-card.component.html',
   styleUrls: ['./personnel-card.component.css']
 })
-export class PersonnelCardComponent implements OnInit {
+export class PersonnelCardComponent implements OnInit, OnChanges {
   @Input() personnel: Person;
+  @Input() addModeFlag;
   @ViewChild('dataContainer') dataContainer: ElementRef;
   personnelForm: FormGroup;
   namePattern = /^[a-zA-Z'-]+$/;
@@ -28,11 +29,29 @@ export class PersonnelCardComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-
+    // if(this.addModeFlag) {
+      
+    // }
 
     this.hydrateForm(this.personnel);
     this.cardId = `card${this.personnel.id}`;
 
+  }
+
+  ngOnChanges() {
+    if(this.addModeFlag) {
+      let newData = {
+        id: '',
+      firstName: '',
+      lastName: '',
+      birthDate: '',
+      hireDate: '',
+      officeLocation: ''
+      }
+      //this.personnelForm.setValue(newData);
+      console.log("this.personnelForm", this.personnelForm)
+    //alert(0)
+    }
   }
 
   buildForm() {
@@ -47,7 +66,6 @@ export class PersonnelCardComponent implements OnInit {
   }
 
   hydrateForm(data: Person) {
-
     if (data) {
       this.personnelForm.patchValue(data);
     }

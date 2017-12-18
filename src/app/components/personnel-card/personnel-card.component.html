@@ -1,6 +1,6 @@
 <div class="mdl-card mdl-shadow--2dp" #dataContainer>
 
-  <div id="withForm" *ngIf="editMode">
+  <div id="withForm" *ngIf="editMode || addModeFlag">
     <form [formGroup]="personnelForm">
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 
