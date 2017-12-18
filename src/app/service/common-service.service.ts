@@ -50,6 +50,8 @@ export class CommonService {
 
   }
 
+
+  
   updateOffice(data: Office) {
     this.officeStore.forEach((entry) => {
       const dataIndex = entry.findIndex((e1 => e1.id === data.id));

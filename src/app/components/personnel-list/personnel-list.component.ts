@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { CommonService } from '../../service/common-service.service';
@@ -22,7 +22,7 @@ export class PersonnelListComponent implements OnInit {
   }
 
   addNew(){
-  	
+  	this.listData.push(new Person());
   }
 
 }

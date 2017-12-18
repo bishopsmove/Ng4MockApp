@@ -1,4 +1,4 @@
-<button (click)="addNew()">Add New</button>
-<div *ngFor="let person of personnelList | async">
-	<app-personnel-card [personnel]="person"></app-personnel-card>
+<button (click)="addNew()" class="md-button">Add New</button>
+<div *ngFor="let person of listData; let i = index">
+	<app-personnel-card  [personnel]="person" [index]="i"></app-personnel-card>
 </div>

@@ -16,6 +16,7 @@ export class OfficeListComponent implements OnInit {
   officeList: Office[];
   stateProvinceList: any[];
   editMode = false;
+  //create a new flag to add mode
   addMode = false;
   currentEditId;
 
@@ -46,9 +47,22 @@ export class OfficeListComponent implements OnInit {
     if (newData) {
       // If input array newData is initialized, init a formGroup and pass each array item into formContainer
       const formArray = <FormArray>this.officeFormContainer.controls['offices'];
-      newData.forEach(item => formArray.controls.push(this._fb.group(item)));
+      newData.forEach(item => formArray.controls.push(this.formBuilder(item)));
 
     }
+  }
+
+  formBuilder(item) : FormGroup{
+    return  this._fb.group({
+      id: item.id,
+      locationName : item.locationName,
+      streetAddressLine1: item.streetAddressLine1,
+      streetAddressLine2: item.streetAddressLine2,
+      cityName: item.cityName,
+      postalCode: item.postalCode,
+      stateProvinceCode: item.stateProvinceCode,
+      phone: item.phone.number
+    })
   }
 
   updateOffice(index) {
@@ -66,6 +80,8 @@ export class OfficeListComponent implements OnInit {
       this.editMode = true;
       this.currentEditId = id;
     } else if(this.addMode){
+
+      //if not want to add new row then on click of cancle pop the last formGroup from formArray
       this.addMode = false;
       const formArray = <FormArray>this.officeFormContainer.get('offices');
       formArray.controls.pop();
@@ -76,11 +92,14 @@ export class OfficeListComponent implements OnInit {
 
   }
 
+  //inserted a new formGroup at the end of formArray with default values and make id as position in formArray
+
   addNewLocation(){
+    this.editMode = false;
     const formArray = <FormArray>this.officeFormContainer.controls['offices'];
     this.currentEditId = formArray.controls.length + 1;
     formArray.push(this._fb.group({
-      id : [formArray.controls.length + 1, Validators.required],
+      id : [formArray.controls.length + 1],
       locationName: [""],
       streetAddressLine1 : [""],
       streetAddressLine2 : [""],

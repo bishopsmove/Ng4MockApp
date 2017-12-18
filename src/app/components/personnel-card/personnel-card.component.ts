@@ -14,10 +14,11 @@ import { Office } from '../../models/office';
 })
 export class PersonnelCardComponent implements OnInit {
   @Input() personnel: Person;
+  @Input() index: number;
   @ViewChild('dataContainer') dataContainer: ElementRef;
   personnelForm: FormGroup;
   namePattern = /^[a-zA-Z'-]+$/;
-  datePattern = /^\d{1,2}\.\d{1,2}\.\d{4}$/;
+  datePattern = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
   nameValidator = ['', Validators.compose([Validators.required,
   Validators.minLength(2),
   Validators.maxLength(25),
@@ -28,34 +29,45 @@ export class PersonnelCardComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-
-
     this.hydrateForm(this.personnel);
-    this.cardId = `card${this.personnel.id}`;
+
 
   }
+
 
   buildForm() {
     this.personnelForm = this._fb.group({
       id: 0,
       firstName: this.nameValidator,
       lastName: this.nameValidator,
-      birthDate: ['', Validators.pattern(this.datePattern)],
-      hireDate: ['', Validators.pattern(this.datePattern)],
-      officeLocation: new Office()
+      birthDate: [''],
+      hireDate: [''],
+      officeLocation: new Office(),
+      phone: [''],
+      role: ''
     });
   }
 
   hydrateForm(data: Person) {
-
-    if (data) {
-      this.personnelForm.patchValue(data);
-    }
+    if (!data.id) {
+      this.personnel.id = this.index + 1;
+      this.editMode = true;
+    } 
+    
+    this.cardId = `card${this.personnel.id}`;
+    this.personnelForm.patchValue(this.personnel);
   }
 
   updatePersonnel() {
-    this._commonService.updatePersonnel(this.personnelForm.value);
-    this.editMode = false;
+    console.log(this.personnelForm.valid)
+    if (this.personnelForm.valid) {
+        this.personnel = this.personnelForm.value;
+        this._commonService.updatePersonnel(this.personnelForm.value);
+        this.editMode = false;
+    }
+
   }
+
+
 
 }
