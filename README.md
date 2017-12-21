@@ -47,20 +47,24 @@ Once you have addressed each task below, test the result.
 
 ## Exercise Tasks
 
+- Read the descriptions above completely before addressing the tasks below.
+
 - Comment all code additions and changes
 
 - If code was changed to address an original state defect, note that in the comment specifically
 
 
-1. The Office List needs the ability to create new Office Locations.
+1. The Office List needs the ability to create new Office Locations. All input must be validated.
 
-2. The Personnel Directory needs the ability to create new Personnel.
+2. The Personnel Directory needs the ability to create new Personnel. All input must be validated.
 
 3. Both Person and Office models need to account for PhoneNumbers and reflect them in corresponding components. Also, input has to be validated (US numbers only).
 
 4. Personnel needs to account for Role. There will be two Roles: Manager & Staff. Personnel can only have one Role. This should be displayed as a dropdown.
 
-Office Location needs to account for a Manager. In the Edit workflow, the Manager field should be a dropdown of only Personnel with a Manager Role. A Manager  can be a Manager of more than one Office Location.
+5. Office Location needs to account for a Manager. In the Edit workflow, the Manager field should be a dropdown of only Personnel with a Manager Role. A Manager  can be a Manager of more than one Office Location.
+
+*Note* : Be sure to run `yarn lint` at least once before committing your finished project.
 
 ## Development server
 
