@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { CommonService } from '../../service/common-service.service';
@@ -11,11 +11,19 @@ import { Person } from '../../models/person';
 })
 export class PersonnelListComponent implements OnInit {
   personnelList: Observable<Person[]>;
-
+  listData = [];
   constructor(private _commonService: CommonService) { }
 
   ngOnInit() {
     this.personnelList = this._commonService.getPersonnel();
+    this.personnelList.subscribe(data => {
+      this.listData = data;
+    });
+  }
+
+  addNew() {
+    this.listData.push(new Person());
+    window.scrollTo(0, document.querySelector('.demo-content').scrollHeight);
   }
 
 }
