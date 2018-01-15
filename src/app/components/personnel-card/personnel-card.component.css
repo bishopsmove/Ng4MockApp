@@ -1,3 +1,12 @@
 .mdl-card {
   widows: 400px;
 }
+
+.mdl-textfield__error {
+	color: #d50000;
+    position: absolute;
+    font-size: 14px;
+    margin-top: 3px;
+     visibility: visible; 
+    display: block;
+}

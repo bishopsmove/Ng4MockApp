@@ -1,36 +1,32 @@
 <div class="mdl-card mdl-shadow--2dp" #dataContainer>
-
-  <div id="withForm" *ngIf="editMode || addModeFlag">
+  <div id="withForm" *ngIf="editMode || personnel?.active">
     <form [formGroup]="personnelForm">
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-
         <input class="mdl-textfield__input" attr.id="personnel-first-name-{{cardId}}" formControlName="firstName" type="text" />
         <label attr.for="personnel-first-name-{{cardId}}">First Name</label>
         <ol *ngIf="personnelForm.get('firstName').invalid && personnelForm.get('firstName').dirty" class="alert alert-danger">
           <li *ngIf="personnelForm.get('firstName')['errors'].required" class="mdl-textfield__error">This field is required</li>
           <li *ngIf="personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error"> Enter Valid First Name</li>
           <li *ngIf="personnelForm.get('firstName')['errors'].minlength && !personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error">
-          Please enter at least 2 characters to proceed</li>
+            Please enter at least 2 characters to proceed</li>
           <li *ngIf="personnelForm.get('firstName')['errors'].maxlength && !personnelForm.get('firstName')['errors'].pattern" class="mdl-textfield__error">
-          Enter less than 25 characters to proceed</li>
+            Enter less than 25 characters to proceed</li>
         </ol>
       </div>
       <div class="mdl-layout-spacer"></div>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-
         <input class="mdl-textfield__input" attr.id="personnel-last-name-{{cardId}}" type="text" formControlName="lastName" />
         <label attr.for="personnel-last-name-{{cardId}}">Last Name</label>
-        <ol *ngIf="personnelForm.get('lastName').invalid && personnelForm.get('lastName').errors" class="alert alert-danger">
+        <ol *ngIf="personnelForm.get('lastName').invalid && personnelForm.get('lastName').dirty" class="alert alert-danger">
           <li *ngIf="personnelForm.get('lastName')['errors'].required" class="mdl-textfield__error">This field is required</li>
           <li *ngIf="personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error"> Enter Valid First Name</li>
           <li *ngIf="personnelForm.get('lastName')['errors'].minlength && !personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error">
-          Please enter at least 2 characters to proceed</li>
+            Please enter at least 2 characters to proceed</li>
           <li *ngIf="personnelForm.get('lastName')['errors'].maxlength && !personnelForm.get('lastName')['errors'].pattern" class="mdl-textfield__error">
-          Enter less than 25 characters to proceed</li>
+            Enter less than 25 characters to proceed</li>
         </ol>
       </div>
       <div class="mdl-layout-spacer"></div>
-
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <div class="mdl-layout-spacer"></div>
         <input class="mdl-textfield__input" attr.id="personnel-birth-date-{{cardId}}" type="date" formControlName="birthDate" />
@@ -38,44 +34,68 @@
       </div>
       <div class="mdl-layout-spacer"></div>
       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-
-        <input class="mdl-textfield__input" attr.id="personnel-hire-date-{{cardId}}" type="date" formControlName="hireDate" />
+        <input class="mdl-textfield__input" attr.id="personnel-hire-date-{{cardId}}" type="date" formControlName="hireDate"/>
         <label attr.for="personnel-hire-date-{{cardId}}">Hire Date</label>
       </div>
       <div class="mdl-layout-spacer"></div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" attr.id="personnel-phone-no-{{cardId}}" formControlName="phoneNo" type="text" />
+        <label attr.for="personnel-phone-no-{{cardId}}">Phone Number</label>
+        <ol *ngIf="personnelForm.get('phoneNo').invalid && personnelForm.get('phoneNo').dirty" class="alert alert-danger">
+          <li *ngIf="personnelForm.get('phoneNo')['errors'].required" class="mdl-textfield__error">This field is required</li>
+          <li *ngIf="personnelForm.get('phoneNo')['errors'].pattern" class="mdl-textfield__error"> Enter Valid Phone No</li>
+        </ol>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <select formControlName="role" id="role">
+          <option *ngFor="let data of roleDropdownValue" [value]="data">
+            {{data}}
+          </option>
+        </select>
+      </div>
     </form>
     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="updatePersonnel()">
       <i class="material-icons">save</i>
     </button>
     <div class="mdl-layout-spacer"></div>
-    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="editMode = !editMode">
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" (click)="editMode = !editMode;cancelPersonal(personnel)">
       <i class="material-icons">cancel</i>
     </button>
   </div>
-  <div id="withoutForm" *ngIf="!editMode">
+  <div id="withoutForm" *ngIf="!editMode && !personnel?.active">
     <ol>
       <li>First Name:
-        <span>{{personnel.firstName}}</span>
+        <span>{{personnel?.firstName}}</span>
       </li>
       <li>Last Name:
-        <span>{{personnel.lastName}}</span>
+        <span>{{personnel?.lastName}}</span>
       </li>
       <li>Birth Date:
-        <span>{{personnel.birthDate | date:'shortDate'}}</span>
+        <span>{{personnel?.birthDate | date:'shortDate'}}</span>
       </li>
       <li>Hire Date:
-        <span>{{personnel.hireDate | date:'shortDate'}}</span>
+        <span>{{personnel?.hireDate | date:'shortDate'}}</span>
+      </li>
+      <li>Phone Number:
+        <span>{{personnel?.phoneNo | date:'shortDate'}}</span>
+      </li>
+      <li>Role:
+        <span>{{personnel?.role}}</span>
       </li>
     </ol>
-
   </div>
   <div class="demo-avatar-dropdown" [hidden]="editMode">
     <div class="mdl-layout-spacer"></div>
     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" attr.id="{{cardId}}">
-      <i class="material-icons">more_vert</i>
+      <!-- <i class="material-icons">more_vert</i> -->
     </button>
-    <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" attr.for="{{cardId}}">
+    <!-- <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" attr.for="{{cardId}}">
       <li class="mdl-menu__item">
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="editMode = !editMode">Edit</button>
+      </li>
+    </ul> -->
+    <ul class="" attr.for="{{cardId}}">
+      <li class="">
         <button class="mdl-button mdl-js-button mdl-js-ripple-effect" (click)="editMode = !editMode">Edit</button>
       </li>
     </ul>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import 'rxjs/Rx';
@@ -12,9 +12,8 @@ import { Office } from '../../models/office';
   templateUrl: './personnel-card.component.html',
   styleUrls: ['./personnel-card.component.css']
 })
-export class PersonnelCardComponent implements OnInit, OnChanges {
+export class PersonnelCardComponent implements OnInit {
   @Input() personnel: Person;
-  @Input() addModeFlag;
   @ViewChild('dataContainer') dataContainer: ElementRef;
   personnelForm: FormGroup;
   namePattern = /^[a-zA-Z'-]+$/;
@@ -23,35 +22,18 @@ export class PersonnelCardComponent implements OnInit, OnChanges {
   Validators.minLength(2),
   Validators.maxLength(25),
   Validators.pattern(this.namePattern)])];
+  phonePattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  phoneValidator = ['', Validators.compose([Validators.required,
+  Validators.pattern(this.phonePattern)])];
   editMode = false;
   cardId: String;
+  roleDropdownValue = ['Staff', 'Manager']
   constructor(private _commonService: CommonService, private _fb: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
-    // if(this.addModeFlag) {
-      
-    // }
-
     this.hydrateForm(this.personnel);
     this.cardId = `card${this.personnel.id}`;
-
-  }
-
-  ngOnChanges() {
-    if(this.addModeFlag) {
-      let newData = {
-        id: '',
-      firstName: '',
-      lastName: '',
-      birthDate: '',
-      hireDate: '',
-      officeLocation: ''
-      }
-      //this.personnelForm.setValue(newData);
-      console.log("this.personnelForm", this.personnelForm)
-    //alert(0)
-    }
   }
 
   buildForm() {
@@ -61,7 +43,9 @@ export class PersonnelCardComponent implements OnInit, OnChanges {
       lastName: this.nameValidator,
       birthDate: ['', Validators.pattern(this.datePattern)],
       hireDate: ['', Validators.pattern(this.datePattern)],
-      officeLocation: new Office()
+      officeLocation: new Office(),
+      phoneNo: this.phoneValidator,
+      role: ''
     });
   }
 
@@ -72,8 +56,14 @@ export class PersonnelCardComponent implements OnInit, OnChanges {
   }
 
   updatePersonnel() {
+    this.personnel['active'] = false;
     this._commonService.updatePersonnel(this.personnelForm.value);
     this.editMode = false;
+  }
+
+  cancelPersonal(data) {
+    this._commonService.updatePersonalListSubject.next(data);
+    this.personnel['active'] = false;
   }
 
 }
