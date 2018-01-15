@@ -22,17 +22,18 @@ export class PersonnelCardComponent implements OnInit {
   Validators.minLength(2),
   Validators.maxLength(25),
   Validators.pattern(this.namePattern)])];
+  phonePattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  phoneValidator = ['', Validators.compose([Validators.required,
+  Validators.pattern(this.phonePattern)])];
   editMode = false;
   cardId: String;
+  roleDropdownValue = ['Staff', 'Manager']
   constructor(private _commonService: CommonService, private _fb: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
-
-
     this.hydrateForm(this.personnel);
     this.cardId = `card${this.personnel.id}`;
-
   }
 
   buildForm() {
@@ -42,20 +43,27 @@ export class PersonnelCardComponent implements OnInit {
       lastName: this.nameValidator,
       birthDate: ['', Validators.pattern(this.datePattern)],
       hireDate: ['', Validators.pattern(this.datePattern)],
-      officeLocation: new Office()
+      officeLocation: new Office(),
+      phoneNo: this.phoneValidator,
+      role: ''
     });
   }
 
   hydrateForm(data: Person) {
-
     if (data) {
       this.personnelForm.patchValue(data);
     }
   }
 
   updatePersonnel() {
+    this.personnel['active'] = false;
     this._commonService.updatePersonnel(this.personnelForm.value);
     this.editMode = false;
+  }
+
+  cancelPersonal(data) {
+    this._commonService.updatePersonalListSubject.next(data);
+    this.personnel['active'] = false;
   }
 
 }

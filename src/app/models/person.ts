@@ -7,4 +7,6 @@ export class Person {
   birthDate: Date;
   hireDate: Date;
   officeLocation?: Office;
+  phoneNo: String;
+  role: String;
 }
